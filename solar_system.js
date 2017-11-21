@@ -1,19 +1,8 @@
 /*
-Álvaro Peris
-
-Solar system.
-
-All data is real:
 	- Orbits
 	- Rotation periods
 	- Translation periods
-	- Planet's sizes
-	(by default, in order to have a good visualization of the planets, they are scaled x1000)
-
 */
-
-
-// Global vars
 
 var renderer,scene,camera;
 var cameraControls;
@@ -49,9 +38,6 @@ var scaled = false;
 var sol = new THREE.Object3D();
 var mercurio;
 var venus;
-
-
-
 
 // Planets data
 
@@ -244,7 +230,7 @@ scene.add(room);
 	var materialMercurio = new THREE.MeshLambertMaterial({side: THREE.Frontside,ambient:0xFFFFFF, map: texMerc});
 	var materialVenus 	 = new THREE.MeshLambertMaterial({side: THREE.Frontside,ambient:0xFFFFFF, map: texVen});
 
-	// Create the sun: Trivial approach -> Shining sprite
+	// Create the sun
 
 	geoSol = new THREE.SphereGeometry(sol_tam, 32,32 );
 	sol = new THREE.Mesh(geoSol,materialSol);
@@ -520,8 +506,6 @@ h.add(effectController, "drawOrbits").name("Show orbits").onChange(function(valu
 
 
 }
-
-//Call all functions
 
 
 init();
