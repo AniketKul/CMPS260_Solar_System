@@ -5,14 +5,14 @@
 	- Orbits
 	- Rotation periods
 	- Translation periods
-	- Planet's sizes
+	- Planet Sizes
 */
 
 var renderer;
 var scene;
 var camera;
 var cameraControls;
-var far=10000;
+var far = 10000;
 var near = 0.001;
 var cam, bgScene, bgCam	;
 var text2;
@@ -24,11 +24,7 @@ var geoSun, geoMercury, geoVenus, geoEarth, geoMoon, geoMars, geoJupiter ,geoSat
 var keyboard = new THREEx.KeyboardState();
 var axisHelper;
 var i;
-//var dias = 0;
-//var anyos = 0;
 var theta = 0;
-// var tamScale = 1;
-// var posScale = 1;
 var timeScale = 1;
 var positions;
 
@@ -49,20 +45,20 @@ var neptune;
 
 // Radious: Thousands of km
 
-var 	 sun_rad 	 = scale_factor * 1392/100;
-var mercury_rad	 = scale_factor * 2.49;
+var 	 sun_rad 	 = scale_factor * 12;
+var mercury_rad	 = scale_factor * 2;
 var    venus_rad 	 = scale_factor * 6;
-var   earth_rad 	 = scale_factor * 6.3;
-var     moon_rad 	 = scale_factor * 1.7;
-var    mars_rad 	 = scale_factor * 3.38;
-var  jupiter_rad 	 = scale_factor * 69.9;
-var  saturn_rad	 = scale_factor * 58.2;
-var satRings_rad_max = scale_factor * (58.2 + 120);
-var satRings_rad_min = scale_factor * (58.2 + 6.63);
-var    uranus_rad 	 = scale_factor * 25.3;
-var uraRings_rad_max = scale_factor * (25.3 + 98);
-var uraRings_rad_min = scale_factor * (25.3 + 38);
-var  neptune_rad 	 = scale_factor * 24.62;
+var   earth_rad 	 = scale_factor * 7;
+var     moon_rad 	 = scale_factor * 1.5;
+var    mars_rad 	 = scale_factor * 4;
+var  jupiter_rad 	 = scale_factor * 70;
+var  saturn_rad	 = scale_factor * 60;
+var satRings_rad_max = scale_factor * (60 + 120);
+var satRings_rad_min = scale_factor * (60 + 10);
+var    uranus_rad 	 = scale_factor * 25;
+var uraRings_rad_max = scale_factor * (25 + 100);
+var uraRings_rad_min = scale_factor * (25 + 50);
+var  neptune_rad 	 = scale_factor * 23;
 
 var 	 sun_tam 	 = sun_rad;
 var mercury_tam	 = mercury_rad;
@@ -81,100 +77,98 @@ var  neptune_tam 	 = neptune_rad;
 
 // Major axis == Distance to the sun (in thousand of kms).
 
-var mercury_dist_from_sun =  scale_factor * 57.909;
-var    venus_dist_from_sun =  scale_factor * 108.208;
-var   earth_dist_from_sun =  scale_factor * 149.597;
-var     moon_dist_from_sun =  scale_factor * 10.384399;
-var    mars_dist_from_sun =  scale_factor * 227.936;
-var  jupiter_dist_from_sun =  scale_factor * 778.412;
-var  saturn_dist_from_sun =  scale_factor * 1426.725;
-var    uranus_dist_from_sun =  scale_factor * 2870.972;
-var  neptune_dist_from_sun =  scale_factor * 4498.252;
+var mercury_dist_from_sun =  scale_factor * 55;
+var    venus_dist_from_sun =  scale_factor * 105;
+var   earth_dist_from_sun =  scale_factor * 150;
+var     moon_dist_from_sun =  scale_factor * 10;
+var    mars_dist_from_sun =  scale_factor * 200;
+var  jupiter_dist_from_sun =  scale_factor * 600;
+var  saturn_dist_from_sun =  scale_factor * 1400;
+var    uranus_dist_from_sun =  scale_factor * 2800;
+var  neptune_dist_from_sun =  scale_factor * 4000;
 
-// Orbits obliquity. In rads.
+// Orbital Angles (In rads).
 
-var mercury_orbit_angle =  1/360 * 2 * Math.PI * 7;
-var    venus_orbit_angle =  1/360 * 2 * Math.PI * 3.39;
-var   earth_orbit_angle =  1/360 * 2 * Math.PI *0;
-var     moon_orbit_angle =  1/360 * 2 * Math.PI * 5.14;
-var    mars_orbit_angle =  1/360 * 2 * Math.PI * 1.85;
-var  jupiter_orbit_angle =  1/360 * 2 * Math.PI * 1.305;
-var  saturn_orbit_angle =  1/360 * 2 * Math.PI * 2.48;
-var    uranus_orbit_angle =  1/360 * 2 * Math.PI * 0.769;
-var  neptune_orbit_angle =  1/360 * 2 * Math.PI * 1.769;
+var mercury_orbit_angle =  1/360 * 2 * Math.PI * 6;
+var    venus_orbit_angle =  1/360 * 2 * Math.PI * 4;
+var   earth_orbit_angle =  1/360 * 2 * Math.PI * 0;
+var     moon_orbit_angle =  1/360 * 2 * Math.PI* 5;
+var    mars_orbit_angle =  1/360 * 2 * Math.PI * 2;
+var  jupiter_orbit_angle =  1/360 * 2 * Math.PI * 1.2;
+var  saturn_orbit_angle =  1/360 * 2 * Math.PI * 2.5;
+var    uranus_orbit_angle =  1/360 * 2 * Math.PI * 0.8;
+var  neptune_orbit_angle =  1/360 * 2 * Math.PI * 1.6;
 
 // Orbits data: Major axis, minor axis and excentricity.
 
 var mercury_a = mercury_dist_from_sun;
-var mercury_e = 0.205;
+var mercury_e = 0.2;
 var mercury_b = mercury_a * Math.sqrt(1-mercury_e * mercury_e);
 var mercury_theta = 0;
 
 var venus_a = venus_dist_from_sun;
-var venus_e = 0.0067;
+var venus_e = 0.01;
 var venus_b = venus_a * Math.sqrt(1 - venus_e * venus_e);
 var venus_theta = 0;
 
 var earth_a = earth_dist_from_sun;
-var earth_e = 0.0167;
+var earth_e = 0.01;
 var earth_b = earth_a * Math.sqrt(1 - earth_e * earth_e);
 var earth_theta = 0;
 
-
 var moon_a = moon_dist_from_sun;
-var moon_e = 0.0549;
+var moon_e = 0.05;
 var moon_b = moon_a * Math.sqrt(1 - moon_e * moon_e);
 var moon_theta = 0;
 
 var mars_a = mars_dist_from_sun;
-var mars_e = 0.093;
+var mars_e = 0.1;
 var mars_b = mars_a * Math.sqrt(1 - mars_e * mars_e);
 var mars_theta = 0;
 
 var jupiter_a = jupiter_dist_from_sun;
-var jupiter_e = 0.0483;
+var jupiter_e = 0.05;
 var jupiter_b = jupiter_a * Math.sqrt(1 - jupiter_e * jupiter_e);
 var jupiter_theta = 0;
 
 
 var saturn_a = saturn_dist_from_sun;
-var saturn_e = 0.0541;
+var saturn_e = 0.05;
 var saturn_b = saturn_a * Math.sqrt(1 - saturn_e * saturn_e);
 var saturn_theta = 0;
 
 var uranus_a = uranus_dist_from_sun;
-var uranus_e = 0.0471;
+var uranus_e = 0.05;
 var uranus_b = uranus_a * Math.sqrt(1 - uranus_e * uranus_e);
 var uranus_theta = 0;
 
-
 var neptune_a = neptune_dist_from_sun;
-var neptune_e = 0.0085;
+var neptune_e = 0.01;
 var neptune_b = neptune_a * Math.sqrt(1 - neptune_e * neptune_e);
 var neptune_theta = 0;
 
 // Rotation periods (days)
 var mercury_rot = 58.64;
 var venus_rot	= -243;
-var earth_rot	= 0.99;
-var moon_rot	= 0.3781;
-var mars_rot	= 1.025;
-var jupiter_rot	= 0.413;
-var saturn_rot	= 0.444;
-var uranus_rot	= -0.718;
-var neptune_rot	= 0.671;
+var earth_rot	= 1;
+var moon_rot	= 0.4;
+var mars_rot	= 1;
+var jupiter_rot	= 0.4;
+var saturn_rot	= 0.4;
+var uranus_rot	= -0.7;
+var neptune_rot	= 0.6;
 
 
 //Orbital periods (years)
-var mercury_per = 0.240;
-var venus_per = 0.615;
+var mercury_per = 0.2;
+var venus_per = 0.6;
 var earth_per = 1;
-var moon_per = 0.074;
-var mars_per = 1.88;
-var jupiter_per = 11.86;
-var saturn_per = 29.447;
-var uranus_per = 84.016;
-var neptune_per = 64.7913;
+var moon_per = 0.07;
+var mars_per = 1.9;
+var jupiter_per = 12;
+var saturn_per = 29;
+var uranus_per = 84;
+var neptune_per = 64;
 
 
 function init (){
@@ -343,8 +337,8 @@ scene.add(universe);
 
 	var texture_saturnRingsAlpha = THREE.ImageUtils.loadTexture( "textures/saturnringpatternrot.gif" );
 	texture_saturnRingsAlpha.repeat.set(1,1);
-	texture_saturnRingsAlpha.magFilter = THREE.LinearFilter; //Píxel menor que texel
-	texture_saturnRingsAlpha.minFilter = THREE.LinearFilter; //Texel menor que píxel
+	texture_saturnRingsAlpha.magFilter = THREE.LinearFilter;
+	texture_saturnRingsAlpha.minFilter = THREE.LinearFilter;
 
 	// Uranus
 	var texture_uranus = new THREE.ImageUtils.loadTexture("textures/uranusmap.jpg");
@@ -372,7 +366,7 @@ scene.add(universe);
 	texture_neptune.magFilter = THREE.LinearFilter;
 	texture_neptune.minFilter = THREE.LinearFilter;
 
-	// Create the materials
+	// Create  materials
 	var materialsun		 = new THREE.MeshPhongMaterial({ ambient:0xFFF300, side: THREE.Frontside,map: texture_sun});
 	var materialmercury = new THREE.MeshLambertMaterial({side: THREE.Frontside,ambient:0xFFFFFF, map: texture_mercury});
 	var materialVenus 	 = new THREE.MeshLambertMaterial({side: THREE.Frontside,ambient:0xFFFFFF, map: texture_venus});
@@ -411,7 +405,7 @@ scene.add(universe);
 
 	// Create the sun: Shining sprite using spriteMaterial
 
-	geoSun = new THREE.SphereGeometry(sun_tam, 32,32 );
+	geoSun = new THREE.SphereGeometry(sun_tam, 32, 32);
 	sun = new THREE.Mesh(geoSun,materialsun);
 
 	var spriteMaterial = new THREE.SpriteMaterial(
@@ -424,62 +418,62 @@ scene.add(universe);
 
 	sprite = new THREE.Sprite( spriteMaterial );
 	sprite.scale.set(9*sun_tam, 9*sun_tam,9*sun_tam);
-	scene.add(sprite); // this centers the glow at the mesh
+	scene.add(sprite); // this converges the glow at the mesh
 
 	// Create the planets objects
 
-	geoMercury = new THREE.SphereGeometry(mercury_tam, 32,32 );
+	geoMercury = new THREE.SphereGeometry(mercury_tam, 32, 32);
 	mercury = new THREE.Mesh(geoMercury,materialmercury);
 	mercury.position.x = mercury_a;
 
 
-	geoVenus = new THREE.SphereGeometry(venus_tam, 32,32 );
+	geoVenus = new THREE.SphereGeometry(venus_tam, 32, 32);
 	venus = new THREE.Mesh(geoVenus,materialVenus);
 	venus.position.x = venus_a;
 
 
-	geoEarth = new THREE.SphereGeometry(earth_tam, 32,32 );
+	geoEarth = new THREE.SphereGeometry(earth_tam, 32, 32);
 	earth = new THREE.Mesh(geoEarth,materialearth);
 	earth.position.x = earth_a;
 
-	geoMoon = new THREE.SphereGeometry(moon_tam, 32,32 );
+	geoMoon = new THREE.SphereGeometry(moon_tam, 32, 32);
 	moon = new THREE.Mesh(geoMoon,materialmoon);
 	moon.position.x = earth_a +moon_a;
 
-	geoMars = new THREE.SphereGeometry(mars_tam, 32,32 );
+	geoMars = new THREE.SphereGeometry(mars_tam, 32, 32);
 	mars = new THREE.Mesh(geoMars,materialmars);
 	mars.position.x = mars_a;
 
 
-	geoJupiter = new THREE.SphereGeometry(jupiter_tam, 32,32 );
+	geoJupiter = new THREE.SphereGeometry(jupiter_tam, 32, 32);
 	jupiter = new THREE.Mesh(geoJupiter,materialJupiter);
 	jupiter.position.x = jupiter_a;
 
-	geoSaturn= new THREE.SphereGeometry(saturn_tam, 32,32 );
+	geoSaturn= new THREE.SphereGeometry(saturn_tam, 32, 32);
 	saturn = new THREE.Mesh(geoSaturn,materialsaturn);
 	saturn.position.x = saturn_a;
 	saturn.position.z = saturn_a;
 
-	var geoSaturnRings =  new THREE.TorusGeometry(satRings_tam_max , satRings_tam_min, 2, 70 );
+	var geoSaturnRings =  new THREE.TorusGeometry(satRings_tam_max , satRings_tam_min, 2, 70);
 	saturnRings = new THREE.Mesh(geoSaturnRings,materialsaturnRings);
 	saturnRings.position.x = saturn_a;
 	saturnRings.rotation.x = Math.PI/2.2;
 
-	geoUranus = new THREE.SphereGeometry(uranus_tam, 32,32 );
+	geoUranus = new THREE.SphereGeometry(uranus_tam, 32, 32);
 	uranus = new THREE.Mesh(geoUranus,materialuranus);
 	uranus.position.x = uranus_a;
 
-	geoUranusRings =  new THREE.TorusGeometry(uraRings_tam_max , uraRings_tam_min, 2, 70 );
+	geoUranusRings =  new THREE.TorusGeometry(uraRings_tam_max , uraRings_tam_min, 2, 70);
 	uranusRings = new THREE.Mesh(geoUranusRings,materialuranusRings);
 	uranusRings.position.x =uranus_a;
 
 
-	geoNeptune= new THREE.SphereGeometry(neptune_tam, 32,32 );
+	geoNeptune= new THREE.SphereGeometry(neptune_tam, 32, 32);
 	neptune = new THREE.Mesh(geoNeptune,materialneptune);
 	neptune.position.x = neptune_a;
 
 
-	// Shadow configuration: Only between the earth and the moon (style decision)
+	// Shadow Settings: Only between the earth and the moon
 
 	mercury.receiveShadow = false;
 	venus.receiveShadow = false;
@@ -526,7 +520,6 @@ scene.add(universe);
 	earth_light.angle = Math.PI/2;
 	earth_light.shadowCameraNear = 0.1;
 	earth_light.shadowCameraFar = 500;
-	//earth_light.shadowCameraVisible = true;
 	earth_light.castShadow = true;
 	earth_light.shadowMapWidth = 1024;
 	earth_light.shadowMapHeight = 1024 	;
@@ -538,7 +531,6 @@ scene.add(universe);
 	moon_light.angle = Math.PI/2;
 	moon_light.shadowCameraNear = 0.1;
 	moon_light.shadowCameraFar = 500;
-	//moon_light.shadowCameraVisible = true;
 	moon_light.castShadow = true;
 	moon_light.shadowMapWidth = 1024;
 	moon_light.shadowMapHeight = 1024 	;
@@ -645,7 +637,6 @@ scene.add(universe);
 }
 
 var prev_date = Date.now();
-//var angulo = 0;
 
 // Update function
 
@@ -686,40 +677,6 @@ if(effectController.escalaTam == true){
 		uranusRings.scale.set(1/1000,1/1000,1/1000);
 		neptune.scale.set(1/1000,1/1000,1/1000);
 
-		scaled=true;
-	}
-}
-
-else{
-
-	if(scaled ==true){
-		mercury_tam	 = mercury_rad;
-		venus_tam 		 = venus_rad;
-		earth_tam 		 = earth_rad;
-		moon_tam 		 = moon_rad;
-		mars_tam 		 = mars_rad;
-		jupiter_tam 	 = jupiter_rad;
-		saturn_tam		 = saturn_rad;
-		satRings_tam_max = satRings_rad_max;
-		satRings_tam_min = satRings_rad_min;
-		uranus_tam 		 = uranus_rad;
-		uraRings_tam_max = uraRings_rad_max;
-		uraRings_tam_min = uraRings_rad_min;
-		neptune_tam 	 = neptune_rad;
-
-		mercury.scale.set(1,1,1);
-		venus.scale.set(1,1,1);
-		earth.scale.set(1,1,1);
-		moon.scale.set(1,1,1);
-		mars.scale.set(1,1,1);
-		jupiter.scale.set(1,1,1);
-		saturn.scale.set(1,1,1);
-		saturnRings.scale.set(1,1,1);
-		uranus.scale.set(1,1,1);
-		uranusRings.scale.set(1,1,1);
-		neptune.scale.set(1,1,1);
-
-	  scaled=false;
 	}
 
 }
@@ -859,12 +816,8 @@ else{
 
     var current_date = Date.now();
 
-    // Take into account the time
+    // consider time
     timeScale = effectController.timeScale;
-    //dias+=(current_date-prev_date)*timeScale;
-    //anyos=dias/365;
-
-
 
 	// Rotation movements
 
@@ -913,30 +866,18 @@ function updateAspectRatio(){
 }
 
 
-
-
 function setupGui(){
 
-
-
 	effectController = {
-		//mensaje: 'Controls',
-		//escalaTam: false,
-		//escalaPos: false,
 		timeScale: 0.0001,
 		planet_list:'None',
-		//seguir : false,
 		drawAxes : false,
 		drawOrbits : false
 	};
 
 	var gui = new dat.GUI();
 	var h = gui.addFolder("Dat.GUI Options");
-	//h.add(effectController, "mensaje").name("System controls");
-	//h.add(effectController, "escalaTam").name("Real-scaled planets");
-	//h.add(effectController, "seguir").name("Follow planet");
 	h.add(effectController, "planet_list", ["None","Sun","Mercury", "Venus", "Earth", "Moon", "Mars", "Jupiter","Saturn","Uranus","Neptune"]).name("Focus on planet").onChange(function(value){
-
 
 		switch (effectController.planet_list){
 
@@ -1011,7 +952,6 @@ function setupGui(){
 			orbits.visible=true;
 	else
 			orbits.visible=false;
-
 
 });
 
