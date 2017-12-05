@@ -82,7 +82,7 @@ var    venus_dist_from_sun =  scale_factor * 105;
 var   earth_dist_from_sun =  scale_factor * 150;
 var     moon_dist_from_sun =  scale_factor * 10;
 var    mars_dist_from_sun =  scale_factor * 200;
-var  jupiter_dist_from_sun =  scale_factor * 600;
+var  jupiter_dist_from_sun =  scale_factor * 700;
 var  saturn_dist_from_sun =  scale_factor * 1400;
 var    uranus_dist_from_sun =  scale_factor * 2800;
 var  neptune_dist_from_sun =  scale_factor * 4000;
@@ -646,7 +646,7 @@ cameraControls.update();
 
 // Dat.GUI controllers
 
-if(effectController.escalaTam == true){
+if(effectController.enableActualScale == true){
 
 
 	if (scaled != true) {
@@ -677,10 +677,42 @@ if(effectController.escalaTam == true){
 		uranusRings.scale.set(1/1000,1/1000,1/1000);
 		neptune.scale.set(1/1000,1/1000,1/1000);
 
+		scaled=true;
+	}
+
+} else {
+
+	if(scaled == true){
+		mercury_tam	 = mercury_rad;
+		venus_tam 		 = venus_rad;
+		earth_tam 		 = earth_rad;
+		moon_tam 		 = moon_rad;
+		mars_tam 		 = mars_rad;
+		jupiter_tam 	 = jupiter_rad;
+		saturn_tam		 = saturn_rad;
+		satRings_tam_max = satRings_rad_max;
+		satRings_tam_min = satRings_rad_min;
+		uranus_tam 		 = uranus_rad;
+		uraRings_tam_max = uraRings_rad_max;
+		uraRings_tam_min = uraRings_rad_min;
+		neptune_tam 	 = neptune_rad;
+
+		mercury.scale.set(1,1,1);
+		venus.scale.set(1,1,1);
+		earth.scale.set(1,1,1);
+		moon.scale.set(1,1,1);
+		mars.scale.set(1,1,1);
+		jupiter.scale.set(1,1,1);
+		saturn.scale.set(1,1,1);
+		saturnRings.scale.set(1,1,1);
+		uranus.scale.set(1,1,1);
+		uranusRings.scale.set(1,1,1);
+		neptune.scale.set(1,1,1);
+
+	  scaled = false;
 	}
 
 }
-
 
 	switch (effectController.planet_list){
 
@@ -865,11 +897,11 @@ function updateAspectRatio(){
 
 }
 
-
 function setupGui(){
 
 	effectController = {
 		timeScale: 0.0001,
+		enableActualScale: false,
 		planet_list:'None',
 		drawAxes : false,
 		drawOrbits : false
@@ -877,6 +909,7 @@ function setupGui(){
 
 	var gui = new dat.GUI();
 	var h = gui.addFolder("Dat.GUI Options");
+	h.add(effectController, "enableActualScale").name("Actual-Scaled planets");
 	h.add(effectController, "planet_list", ["None","Sun","Mercury", "Venus", "Earth", "Moon", "Mars", "Jupiter","Saturn","Uranus","Neptune"]).name("Focus on planet").onChange(function(value){
 
 		switch (effectController.planet_list){
