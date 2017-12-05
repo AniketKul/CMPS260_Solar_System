@@ -1,6 +1,6 @@
 /*
 	CMPS260: Computer Graphics Course Project
-	* sunar system Simulation using ThreeJS*
+	* Solar system Simulation using ThreeJS*
 
 	- Orbits
 	- Rotation periods
